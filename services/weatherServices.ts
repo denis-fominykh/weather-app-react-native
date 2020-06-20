@@ -6,7 +6,7 @@ export default class WeatherServices {
     return `${this._apiBase}lat=${lat}&lon=${lon}&APPID=${this._apiKey}&units=metric`;
   };
 
-  public async fetchWeather(lat: number = 25, lon: number = 25) {
+  public fetchWeather = async (lat: number = 25, lon: number = 25) => {
     const res = await fetch(this.getCity(lat, lon));
 
     if (!res.ok) {
