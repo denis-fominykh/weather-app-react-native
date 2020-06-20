@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import WeatherServices from './services/weatherServices';
 import Weather from './components/Weather';
 
 interface AppProps {}
@@ -22,31 +23,23 @@ export default class App extends Component<AppProps, AppState> {
     error: null,
   };
 
-  private _apiKey: string = 'f49baef6b4984f869cda007be0df0833';
-  private _apiBase: string = 'http://api.openweathermap.org/data/2.5/weather?';
+  private weatherServices = new WeatherServices();
 
   componentDidMount() {
     navigator.geolocation.getCurrentPosition(
       (position) => {
-        this.fetchWeather(position.coords.latitude, position.coords.longitude);
+        this.weatherServices.fetchWeather(position.coords.latitude, position.coords.longitude)
+          .then(data => {
+            this.setState({
+              temperature: data.main.temp,
+              city: data.name,
+              weatherCondition: data.weather[0].main,
+              isLoading: false,
+            });
+          })
       },
       (error: PositionError) => this.setState({ error }),
     );
-  }
-
-  private fetchWeather = (lat: number = 25, lon: number = 25) => {
-    fetch(
-      `${this._apiBase}lat=${lat}&lon=${lon}&APPID=${this._apiKey}&units=metric`,
-    )
-      .then((res) => res.json())
-      .then((data) => {
-        this.setState({
-          temperature: data.main.temp,
-          city: data.name,
-          weatherCondition: data.weather[0].main,
-          isLoading: false,
-        });
-      });
   }
 
   render() {
