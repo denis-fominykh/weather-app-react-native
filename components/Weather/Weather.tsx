@@ -2,16 +2,22 @@ import React, { FC } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
-const Weather: FC = () => {
+interface WeatherProps {
+  weather: string | null;
+  city: string | null;
+  temperature: number;
+}
+
+const Weather: FC<WeatherProps> = ({ weather, city, temperature }) => {
   return (
     <View style={styles.weatherContainer}>
       <View style={styles.headerContainer}>
         <MaterialCommunityIcons size={48} name="weather-sunny" color={'#fff'} />
-        <Text style={styles.tempText}>Temperature˚</Text>
+        <Text style={styles.tempText}>{temperature}˚C</Text>
       </View>
       <View style={styles.bodyContainer}>
-        <Text style={styles.title}>So Sunny</Text>
-        <Text style={styles.subtitle}>It hurts my eyes!</Text>
+        <Text style={styles.title}>{weather}</Text>
+        <Text style={styles.subtitle}>{city}</Text>
       </View>
     </View>
   );

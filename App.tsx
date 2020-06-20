@@ -8,6 +8,7 @@ interface AppProps {}
 interface AppState {
   isLoading: boolean;
   temperature: number;
+  city: string | null;
   weatherCondition: string | null;
   error: PositionError | null;
 }
@@ -16,6 +17,7 @@ export default class App extends Component<AppProps, AppState> {
   state = {
     isLoading: false,
     temperature: 0,
+    city: null,
     weatherCondition: null,
     error: null,
   };
@@ -32,7 +34,7 @@ export default class App extends Component<AppProps, AppState> {
     );
   }
 
-  private fetchWeather(lat: number = 25, lon: number = 25) {
+  private fetchWeather = (lat: number = 25, lon: number = 25) => {
     fetch(
       `${this._apiBase}lat=${lat}&lon=${lon}&APPID=${this._apiKey}&units=metric`,
     )
@@ -40,6 +42,7 @@ export default class App extends Component<AppProps, AppState> {
       .then((data) => {
         this.setState({
           temperature: data.main.temp,
+          city: data.name,
           weatherCondition: data.weather[0].main,
           isLoading: false,
         });
@@ -47,14 +50,14 @@ export default class App extends Component<AppProps, AppState> {
   }
 
   render() {
-    const { isLoading } = this.state;
+    const { isLoading, weatherCondition, city, temperature } = this.state;
 
     const content = isLoading ? (
       <View>
         <Text>Minimalist Weather App</Text>
       </View>
     ) : (
-      <Weather />
+      <Weather weather={weatherCondition} city={city} temperature={temperature} />
     );
 
     return <View style={styles.container}>{content}</View>;
