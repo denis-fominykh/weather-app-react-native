@@ -8,15 +8,20 @@ import {
   TextInputSubmitEditingEventData,
 } from 'react-native';
 
+import Forecast from './Forecast';
+import { ForecastProps } from './Forecast';
+
 interface WeatherProps {}
 
 interface WeatherState {
   city: string;
+  forecast: ForecastProps | null;
 }
 
 export default class Weather extends Component<WeatherProps, WeatherState> {
   state = {
     city: '',
+    forecast: null,
   };
 
   private handleTextChange = (
@@ -26,9 +31,20 @@ export default class Weather extends Component<WeatherProps, WeatherState> {
   };
 
   render() {
+    const { city, forecast } = this.state;
+
+    const content = this.state.forecast ? (
+      <Forecast
+        main={forecast.main}
+        description={forecast.description}
+        temp={forecast.temp}
+      />
+    ) : null;
+
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>You input {this.state.city}</Text>
+        <Text style={styles.welcome}>You input {city}</Text>
+        {content}
         <TextInput
           style={styles.input}
           onSubmitEditing={this.handleTextChange}
