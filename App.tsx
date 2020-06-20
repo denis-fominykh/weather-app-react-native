@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, ActivityIndicator } from 'react-native';
 
 import WeatherServices from './services/weatherServices';
 import Weather from './components/Weather';
@@ -16,7 +16,7 @@ interface AppState {
 
 export default class App extends Component<AppProps, AppState> {
   state = {
-    isLoading: false,
+    isLoading: true,
     temperature: 0,
     city: null,
     weatherCondition: null,
@@ -46,8 +46,8 @@ export default class App extends Component<AppProps, AppState> {
     const { isLoading, weatherCondition, city, temperature } = this.state;
 
     const content = isLoading ? (
-      <View>
-        <Text>Minimalist Weather App</Text>
+      <View style={styles.horizontal}>
+        <ActivityIndicator size="large" color="#fff" />
       </View>
     ) : (
       <Weather weather={weatherCondition} city={city} temperature={temperature} />
@@ -60,6 +60,10 @@ export default class App extends Component<AppProps, AppState> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#000000',
+  },
+  horizontal: {
+    flex: 1,
+    justifyContent: 'center',
   },
 });
