@@ -1,16 +1,29 @@
-import React, { FC } from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import Weather from './components/Weather';
+interface AppProps {}
 
-const App: FC = () => {
-  return (
-    <View style={styles.container}>
-      {/*<Text>Open up App.tsx to start working on your app!</Text>*/}
-      <Weather />
-    </View>
-  );
-};
+interface AppState {
+  isLoading: boolean;
+}
+
+export default class App extends Component<AppProps, AppState> {
+  state = {
+    isLoading: false,
+  };
+
+  render() {
+    const { isLoading } = this.state;
+
+    const content = isLoading ? null : (
+      <View>
+        <Text>Minimalist Weather App</Text>
+      </View>
+    );
+
+    return <View style={styles.container}>{content}</View>;
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -20,5 +33,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-export default App;
