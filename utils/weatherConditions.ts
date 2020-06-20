@@ -23,7 +23,6 @@ const weatherConditions = {
     subtitle: 'Everywhere',
     icon: 'weather-cloudy'
   },
-
   Snow: {
     color: '#00d2ff',
     title: 'Snow',
