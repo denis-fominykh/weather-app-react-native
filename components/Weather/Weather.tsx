@@ -2,6 +2,8 @@ import React, { FC } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import weatherConditions from '../../utils/weatherConditions';
+
 interface WeatherProps {
   weather: string | null;
   city: string | null;
@@ -10,14 +12,26 @@ interface WeatherProps {
 
 const Weather: FC<WeatherProps> = ({ weather, city, temperature }) => {
   return (
-    <View style={styles.weatherContainer}>
+    <View
+      style={[
+        styles.weatherContainer,
+        { backgroundColor: weatherConditions[weather].color },
+      ]}
+    >
       <View style={styles.headerContainer}>
-        <MaterialCommunityIcons size={48} name="weather-sunny" color={'#fff'} />
-        <Text style={styles.tempText}>{temperature}˚C</Text>
+        <MaterialCommunityIcons
+          size={48}
+          name={weatherConditions[weather].icon}
+          color={'#fff'}
+        />
+        <Text style={styles.tempText}>{Math.round(temperature)}˚C</Text>
       </View>
       <View style={styles.bodyContainer}>
-        <Text style={styles.title}>{weather}</Text>
-        <Text style={styles.subtitle}>{city}</Text>
+        <Text style={styles.title}>{weatherConditions[weather].title}</Text>
+        <Text style={styles.subtitle}>
+          {weatherConditions[weather].subtitle}
+        </Text>
+        <Text style={styles.city}>{city}</Text>
       </View>
     </View>
   );
@@ -26,15 +40,15 @@ const Weather: FC<WeatherProps> = ({ weather, city, temperature }) => {
 const styles = StyleSheet.create({
   weatherContainer: {
     flex: 1,
-    backgroundColor: '#f7b733',
   },
   headerContainer: {
     flex: 1,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   tempText: {
-    fontSize: 48,
+    fontSize: 72,
     color: '#fff',
   },
   bodyContainer: {
@@ -45,11 +59,15 @@ const styles = StyleSheet.create({
     marginBottom: 40,
   },
   title: {
-    fontSize: 48,
+    fontSize: 60,
     color: '#fff',
   },
   subtitle: {
-    fontSize: 24,
+    fontSize: 30,
+    color: '#fff',
+  },
+  city: {
+    fontSize: 18,
     color: '#fff',
   },
 });
