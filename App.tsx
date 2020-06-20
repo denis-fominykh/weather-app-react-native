@@ -7,20 +7,54 @@ interface AppProps {}
 
 interface AppState {
   isLoading: boolean;
+  temperature: number;
+  weatherCondition: string | null;
+  error: PositionError | null;
 }
 
 export default class App extends Component<AppProps, AppState> {
   state = {
-    isLoading: true,
+    isLoading: false,
+    temperature: 0,
+    weatherCondition: null,
+    error: null,
   };
+
+  private _apiKey: string = 'f49baef6b4984f869cda007be0df0833';
+  private _apiBase: string = 'http://api.openweathermap.org/data/2.5/weather?';
+
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.fetchWeather(position.coords.latitude, position.coords.longitude);
+      },
+      (error: PositionError) => this.setState({ error }),
+    );
+  }
+
+  private fetchWeather(lat: number = 25, lon: number = 25) {
+    fetch(
+      `${this._apiBase}lat=${lat}&lon=${lon}&APPID=${this._apiKey}&units=metric`,
+    )
+      .then((res) => res.json())
+      .then((data) => {
+        this.setState({
+          temperature: data.main.temp,
+          weatherCondition: data.weather[0].main,
+          isLoading: false,
+        });
+      });
+  }
 
   render() {
     const { isLoading } = this.state;
 
-    const content = isLoading ? <Weather /> : (
+    const content = isLoading ? (
       <View>
         <Text>Minimalist Weather App</Text>
       </View>
+    ) : (
+      <Weather />
     );
 
     return <View style={styles.container}>{content}</View>;
@@ -30,5 +64,6 @@ export default class App extends Component<AppProps, AppState> {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
   },
 });

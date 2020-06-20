@@ -20,31 +20,31 @@ const Weather: FC = () => {
 const styles = StyleSheet.create({
   weatherContainer: {
     flex: 1,
-    backgroundColor: '#f7b733'
+    backgroundColor: '#f7b733',
   },
   headerContainer: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center'
+    justifyContent: 'center',
   },
   tempText: {
     fontSize: 48,
-    color: '#fff'
+    color: '#fff',
   },
   bodyContainer: {
     flex: 2,
     alignItems: 'flex-start',
     justifyContent: 'flex-end',
     paddingLeft: 25,
-    marginBottom: 40
+    marginBottom: 40,
   },
   title: {
     fontSize: 48,
-    color: '#fff'
+    color: '#fff',
   },
   subtitle: {
     fontSize: 24,
-    color: '#fff'
+    color: '#fff',
   },
 });
 
