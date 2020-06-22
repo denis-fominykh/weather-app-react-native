@@ -1,6 +1,6 @@
 # The Weather App
 
-![srcreens](./img/screens.png)
+![srcreens](./img/phones_screens.png)
 
 This project was bootstrapped with [Expo](https://expo.io/).
 
